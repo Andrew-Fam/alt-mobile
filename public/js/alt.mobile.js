@@ -92,7 +92,54 @@ function stickNavbar() {
 }
 
 
+function servicesInit() {
+	var $servicesWrap  = $('.services-wrap'),
+		$strategy = $('#strategy'),
+		$creative = $('#creative'),
+		$technology = $('#technology'),
+		$marketing = $('#marketing');
 
+
+	$strategy.addClass('active');
+	$creative.addClass('next');
+	$technology.addClass('after-next');
+	$marketing.addClass('prev');
+
+	console.log("SERVICES!");
+
+	$servicesWrap.swipeleft(function (){
+		console.log("LEEFTY");
+		servicesNext();
+	});
+	$servicesWrap.swiperight(function (){
+		console.log('alllrighty');
+		servicesPrev();
+	});
+}
+
+function servicesPrev() {
+	var $active = $('.services .active'),
+		$next = $('.services .next'),
+		$prev = $('.services .prev'),
+		$afterNext = $('.services .after-next');
+
+	$active.removeClass().addClass('next');
+	$next.removeClass().addClass('after-next');
+	$prev.removeClass().addClass('active');
+	$afterNext.removeClass().addClass('prev');
+}
+
+function servicesNext() {
+	var $active = $('.services .active'),
+		$next = $('.services .next'),
+		$prev = $('.services .prev'),
+		$afterNext = $('.services .after-next');
+
+	$active.removeClass().addClass('prev');
+	$next.removeClass().addClass('active');
+	$prev.removeClass().addClass('after-next');
+	$afterNext.removeClass().addClass('next');
+}
 
 function fiveStepProcessInit() {
 	var $analysis = $('#analysis'),
@@ -125,15 +172,6 @@ function fiveStepProcessInit() {
 		fiveStepPrevious();
 	});
 
-
-	/*$next.click(function () {
-		
-		fiveStepNext();
-	});
-	$prev.click(function () {
-
-		fiveStepPrevious();
-	});*/
 }
 
 function fiveStepNext() {
@@ -201,9 +239,13 @@ function skrollrInit() {
 
 			// handle sticky header
 	        if(data.curTop >= $view.height() - $nav.outerHeight()) {
-	        	$('#stick-nav').addClass('moveIn');   
+	        	$('#stick-nav').addClass('moveIn'); 
+	        	//temporary hack to hide landing when scroll to bottom  
+	        	$('.landing').addClass('cover');
 	        }else {
 	        	$('#stick-nav').removeClass('moveIn');   
+	        	//temporary hack to hide landing when scroll to bottom  
+	        	$('.landing').removeClass('cover');
 	        }
 	        
 	    
@@ -230,6 +272,18 @@ function skrollrInit() {
 	}
 
 	skrollr.menu.init(s);
+
+
+	// hack to fix body shifting when focus on input/textarea or select field
+	bodyShiftFix();
+}
+
+function bodyShiftFix() {
+	if(_isMobile) {
+		$('input,textarea,select').blur(function() {
+			$('html,body').scrollTop(0);
+		});
+	}
 }
 
 function toggleOffCanvas() {
@@ -267,13 +321,19 @@ function resize() {
 function init() {
 	$nav = $('.navbar');
 
-
+	_isMobile = (/Android|iPhone|iPad|iPod|BlackBerry/i).test(navigator.userAgent || navigator.vendor || window.opera);
 
 	fiveStepProcessInit();
+	servicesInit();
 	resize();
 	offCanvasInit();
 	cycleInit();
 	skrollrInit();
+
+
+	// hack to fix body shifting when focus on input/textarea or select field
+
+	bodyShiftFix();
 }	
 
 
