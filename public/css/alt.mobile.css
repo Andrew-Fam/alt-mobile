@@ -797,8 +797,9 @@ nav {
 }
 .clients .clients-list {
   margin-top: 55px;
-  margin-left: -25px;
-  margin-right: -25px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 320px;
 }
 .clients .clients-list li {
   margin: 0;
