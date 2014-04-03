@@ -105,14 +105,15 @@ function servicesInit() {
 	$technology.addClass('after-next');
 	$marketing.addClass('prev');
 
-	console.log("SERVICES!");
 
-	$servicesWrap.swipeleft(function (){
-		console.log("LEEFTY");
+	$servicesWrap.swipeleft(function (e){
+		e.preventDefault();
+		e.stopPropagation();
 		servicesNext();
 	});
-	$servicesWrap.swiperight(function (){
-		console.log('alllrighty');
+	$servicesWrap.swiperight(function (e){
+		e.preventDefault();
+		e.stopPropagation();
 		servicesPrev();
 	});
 }
@@ -165,10 +166,14 @@ function fiveStepProcessInit() {
 		fiveStepPrevious();
 	});
 
-	$('.steps-wrap').swipeleft(function () {
+	$('.steps-wrap').swipeleft(function (e) {
+		e.preventDefault();
+		e.stopPropagation();
 		fiveStepNext();
 	});
-	$('.steps-wrap').swiperight(function () { 
+	$('.steps-wrap').swiperight(function (e) { 
+		e.preventDefault();
+		e.stopPropagation();
 		fiveStepPrevious();
 	});
 
@@ -186,6 +191,13 @@ function fiveStepNext() {
 	$prev.removeClass().addClass('before-prev');
 	$afterNext.removeClass().addClass('next');
 	$beforePrev.removeClass().addClass('after-next');
+
+	$('.steps-wrap').addClass('stepping');
+
+	setTimeout(function () {
+		$('.steps-wrap').removeClass('stepping');
+	},300);
+
 }
 
 function fiveStepPrevious() {
@@ -200,6 +212,12 @@ function fiveStepPrevious() {
 	$prev.removeClass().addClass('active');
 	$afterNext.removeClass().addClass('before-prev');
 	$beforePrev.removeClass().addClass('prev');
+
+	$('.steps-wrap').addClass('stepping');
+
+	setTimeout(function () {
+		$('.steps-wrap').removeClass('stepping');
+	},200);
 }
 
 
@@ -230,8 +248,10 @@ function cycleInit() {
 
 
 function skrollrInit() {
-
-
+	var $stick = $('#stick-nav');
+	var $first = $('#first-nav');
+	//$stick.css('top',$view.height() - $stick.outerHeight());
+	$('body, html').scrollTop(0);
 	var skrollrOptions = {
 		beforerender: function(data) {
 
@@ -239,15 +259,25 @@ function skrollrInit() {
 
 			// handle sticky header
 	        if(data.curTop >= $view.height() - $nav.outerHeight()) {
-	        	$('#stick-nav').addClass('moveIn'); 
+	        	$stick.addClass('moveIn'); 
+	        	$first.addClass('fades');
 	        	//temporary hack to hide landing when scroll to bottom  
 	        	$('.landing').addClass('cover');
 	        }else {
-	        	$('#stick-nav').removeClass('moveIn');   
+	        	$stick.removeClass('moveIn');   
+	        	$first.removeClass('fades');
 	        	//temporary hack to hide landing when scroll to bottom  
 	        	$('.landing').removeClass('cover');
 	        }
 	        
+	        /*if($stick.hasClass('moveIn')){
+	        	if(parseInt($stick.css('top'))<0);
+	        	$stick.css('top',0);
+	        }else {
+	        	$stick.css('top',$view.height() - $stick.outerHeight() - data.curTop);
+	        }*/
+
+
 	    
 	    }
 	}
@@ -259,7 +289,7 @@ function skrollrInit() {
 	    animate: true,
 
 	    //The easing function to use.
-	    easing: 'sqrt',
+	    easing: 'ease',
 
 	    //Multiply your data-[offset] values so they match those set in skrollr.init
 	    scale: 2,
@@ -274,17 +304,8 @@ function skrollrInit() {
 	skrollr.menu.init(s);
 
 
-	// hack to fix body shifting when focus on input/textarea or select field
-	bodyShiftFix();
 }
 
-function bodyShiftFix() {
-	if(_isMobile) {
-		$('input,textarea,select').blur(function() {
-			$('html,body').scrollTop(0);
-		});
-	}
-}
 
 function toggleOffCanvas() {
 	if($('.main-wrap').hasClass('off-canvas')){
@@ -329,11 +350,6 @@ function init() {
 	offCanvasInit();
 	cycleInit();
 	skrollrInit();
-
-
-	// hack to fix body shifting when focus on input/textarea or select field
-
-	bodyShiftFix();
 }	
 
 
