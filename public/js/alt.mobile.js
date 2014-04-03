@@ -162,10 +162,15 @@ function fiveStepProcessInit() {
 	$next.on('tap',function () {
 		fiveStepNext();
 	});
+	$next.click(function () {
+		fiveStepNext();
+	});
 	$prev.on('tap',function () {
 		fiveStepPrevious();
 	});
-
+	$prev.click(function () {
+		fiveStepPrevious();
+	});
 	$('.steps-wrap').swipeleft(function (e) {
 		e.preventDefault();
 		e.stopPropagation();

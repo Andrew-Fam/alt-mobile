@@ -298,6 +298,10 @@ nav {
 .preface {
   padding-top: 75px;
   padding-bottom: 55px;
+  background-image: url('../img/hex-bg.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 0px;
 }
 .preface h1 {
   font-size: 78px;
@@ -871,10 +875,12 @@ nav {
   clear: both;
 }
 .clients .clients-list {
+  position: relative;
   margin-top: 55px;
   margin-left: auto;
   margin-right: auto;
-  width: 320px;
+  width: 100%;
+  margin-left: -1px;
 }
 .clients .clients-list li {
   margin: 0;
@@ -882,14 +888,16 @@ nav {
   float: left;
   margin-left: 0px;
   margin-bottom: 2px;
-}
-.clients .clients-list li:nth-child(2n) {
-  margin-left: 2px;
+  position: relative;
+  width: 50%;
+  padding-left: 2px;
 }
 .clients .clients-list li .client {
-  width: 159px;
-  height: 86px;
+  position: relative;
   background-color: #333131;
+}
+.clients .clients-list li .client img {
+  width: 100%;
 }
 .clients .testimonials {
   margin-top: 38px;
